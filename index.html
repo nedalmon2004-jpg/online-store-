@@ -40,12 +40,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .sidebar-footer .phone{margin-bottom:8px}
 .sidebar-footer .logout{background:none;border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:8px;cursor:pointer;font-size:12px;width:100%;font-family:inherit;transition:all .2s}
 .sidebar-footer .logout:hover{border-color:var(--danger);color:var(--danger)}
+.sidebar-footer .location{font-size:11px;margin-bottom:8px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.sidebar-footer .location .loc-text{display:inline-block;animation:scrollLoc 10s linear infinite}
+@keyframes scrollLoc{0%{transform:translateX(0)}10%{transform:translateX(0)}45%{transform:translateX(calc(-1*(100% - 18px)))}55%{transform:translateX(calc(-1*(100% - 18px)))}90%{transform:translateX(0)}100%{transform:translateX(0)}}
 
 /* Main */
 .main{margin-left:var(--sidebar);flex:1;min-height:100vh}
 .topbar{height:60px;background:rgba(245,245,247,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50}
 .topbar h2{font-size:18px;font-weight:600}
 .topbar .menu-toggle{display:none;background:none;border:none;font-size:22px;cursor:pointer;padding:4px}
+.topbar-loc{font-size:11px;color:var(--text2);max-width:260px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:right}
+.topbar-loc .loc-scroll{display:inline-block;animation:scrollLoc2 10s linear infinite}
+@keyframes scrollLoc2{0%{transform:translateX(0)}10%{transform:translateX(0)}45%{transform:translateX(calc(-1*(100% - 36px)))}55%{transform:translateX(calc(-1*(100% - 36px)))}90%{transform:translateX(0)}100%{transform:translateX(0)}}
 .content{padding:24px 28px}
 .tab{display:none;animation:slideUp .35s ease}
 .tab.active{display:block}
@@ -199,6 +205,7 @@ input:focus,select:focus{border-color:var(--primary)}
     <img src="./NS STORE.png" alt="NS Store">
     <h1>NS Store</h1>
     <p>Administration Login</p>
+    <p style="font-size:11px;color:var(--text2);margin-top:-20px;margin-bottom:24px">📍 Kothuval street, chalai, trivandrum, kerala-695036</p>
     <form id="loginForm">
       <div class="form-group">
         <label>Username</label>
@@ -232,6 +239,7 @@ input:focus,select:focus{border-color:var(--primary)}
   </nav>
   <div class="sidebar-footer">
     <div class="phone">📞 7356499452</div>
+    <div class="location" id="storeLocation">📍 <span class="loc-text">Kothuval street, chalai, trivandrum, kerala-695036</span></div>
     <button class="logout" onclick="App.logout()">🚪 Logout</button>
   </div>
 </aside>
@@ -243,6 +251,7 @@ input:focus,select:focus{border-color:var(--primary)}
       <button class="menu-toggle" id="menuToggle">☰</button>
       <h2 id="pageTitle">Dashboard</h2>
     </div>
+    <div class="topbar-loc">📍 <span class="loc-scroll">Kothuval street, chalai, trivandrum, kerala-695036</span></div>
   </div>
   <div class="content" id="content">
 
@@ -738,7 +747,7 @@ const App = {
     const m=document.getElementById('receiptModal'),c=document.getElementById('receiptContent');
     const d=new Date(sale.createdAt||sale.date),ds=d.toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}),ts=d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
     c.innerHTML=`<div class="receipt">
-      <h4>NS Store</h4><div class="sub">📞 7356499452<br>${ds} · ${ts}<br>Invoice #${sale.id}</div>
+      <h4>NS Store</h4><div class="sub">📍 Kothuval st, chalai, trivandrum, kerala-695036<br>📞 7356499452<br>${ds} · ${ts}<br>Invoice #${sale.id}</div>
       <div class="cust"><strong>${sale.customerName||'Guest'}</strong> · ${sale.payment||'Cash'}</div>
       <table>
         <thead><tr><th>#</th><th>Item</th><th>Qty</th><th class="right">Rate</th><th class="right">Amt</th></tr></thead>
@@ -752,7 +761,7 @@ const App = {
       const w=window.open('','_blank');
       w.document.write(`<html><head><title>Invoice #${sale.id}</title><style>
         body{font-family:'Courier New',monospace;font-size:12px;padding:40px;max-width:340px;margin:auto}
-        h4{text-align:center;font-size:18px;margin-bottom:4px}
+        h4{text-align:center;font-size:18px;margin-bottom:2px}
         .sub{text-align:center;color:#666;margin-bottom:12px;border-bottom:1px dashed #ccc;padding-bottom:12px;font-size:12px}
         .cust{font-size:12px;margin-bottom:8px;padding:6px 0;border-bottom:1px dashed #ccc}
         table{width:100%;border-collapse:collapse;margin-bottom:8px}
